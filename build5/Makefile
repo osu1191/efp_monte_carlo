@@ -40,6 +40,9 @@ default_target: all
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Produce verbose output by default.
+VERBOSE = 1
+
 # Command-line flag to silence nested $(MAKE).
 $(VERBOSE)MAKESILENT = -s
 
@@ -67,10 +70,10 @@ RM = /apps/spack/bell/apps/cmake/3.18.2-gcc-10.2.0-z3hxs65/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /depot/lslipche/data/skp/efp_monte_carlo
+CMAKE_SOURCE_DIR = /depot/lslipche/data/skp/tstgit/efp_monte_carlo
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /depot/lslipche/data/skp/efp_monte_carlo/build5
+CMAKE_BINARY_DIR = /depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -143,11 +146,22 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/apps/spack/bell/apps/cmake/3.18.2-gcc-10.2.0-z3hxs65/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /depot/lslipche/data/skp/efp_monte_carlo/build5/CMakeFiles /depot/lslipche/data/skp/efp_monte_carlo/build5//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/CMakeFiles /depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /depot/lslipche/data/skp/efp_monte_carlo/build5/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -185,7 +199,7 @@ efp: cmake_check_build_system
 
 # fast build rule for target.
 efp/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/efp.dir/build.make src/CMakeFiles/efp.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/build
 .PHONY : efp/fast
 
 #=============================================================================
@@ -202,30 +216,475 @@ efpmd/fast:
 .PHONY : efpmd/fast
 
 #=============================================================================
-# Target rules for targets named opt
+# Target rules for targets named ctorch
 
 # Build rule for target.
-opt: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 opt
-.PHONY : opt
+ctorch: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ctorch
+.PHONY : ctorch
 
 # fast build rule for target.
-opt/fast:
-	$(MAKE) $(MAKESILENT) -f efpmd/libopt/CMakeFiles/opt.dir/build.make efpmd/libopt/CMakeFiles/opt.dir/build
-.PHONY : opt/fast
+ctorch/fast:
+	$(MAKE) $(MAKESILENT) -f efpmd/CMakeFiles/ctorch.dir/build.make efpmd/CMakeFiles/ctorch.dir/build
+.PHONY : ctorch/fast
 
 #=============================================================================
-# Target rules for targets named ff
+# Target rules for targets named libopt
 
 # Build rule for target.
-ff: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ff
-.PHONY : ff
+libopt: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 libopt
+.PHONY : libopt
 
 # fast build rule for target.
-ff/fast:
-	$(MAKE) $(MAKESILENT) -f efpmd/libff/CMakeFiles/ff.dir/build.make efpmd/libff/CMakeFiles/ff.dir/build
-.PHONY : ff/fast
+libopt/fast:
+	$(MAKE) $(MAKESILENT) -f efpmd/CMakeFiles/libopt.dir/build.make efpmd/CMakeFiles/libopt.dir/build
+.PHONY : libopt/fast
+
+#=============================================================================
+# Target rules for targets named libff
+
+# Build rule for target.
+libff: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 libff
+.PHONY : libff
+
+# fast build rule for target.
+libff/fast:
+	$(MAKE) $(MAKESILENT) -f efpmd/CMakeFiles/libff.dir/build.make efpmd/CMakeFiles/libff.dir/build
+.PHONY : libff/fast
+
+src/aidisp.o: src/aidisp.c.o
+
+.PHONY : src/aidisp.o
+
+# target to build an object file
+src/aidisp.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/aidisp.c.o
+.PHONY : src/aidisp.c.o
+
+src/aidisp.i: src/aidisp.c.i
+
+.PHONY : src/aidisp.i
+
+# target to preprocess a source file
+src/aidisp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/aidisp.c.i
+.PHONY : src/aidisp.c.i
+
+src/aidisp.s: src/aidisp.c.s
+
+.PHONY : src/aidisp.s
+
+# target to generate assembly for a file
+src/aidisp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/aidisp.c.s
+.PHONY : src/aidisp.c.s
+
+src/balance.o: src/balance.c.o
+
+.PHONY : src/balance.o
+
+# target to build an object file
+src/balance.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/balance.c.o
+.PHONY : src/balance.c.o
+
+src/balance.i: src/balance.c.i
+
+.PHONY : src/balance.i
+
+# target to preprocess a source file
+src/balance.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/balance.c.i
+.PHONY : src/balance.c.i
+
+src/balance.s: src/balance.c.s
+
+.PHONY : src/balance.s
+
+# target to generate assembly for a file
+src/balance.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/balance.c.s
+.PHONY : src/balance.c.s
+
+src/clapack.o: src/clapack.c.o
+
+.PHONY : src/clapack.o
+
+# target to build an object file
+src/clapack.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/clapack.c.o
+.PHONY : src/clapack.c.o
+
+src/clapack.i: src/clapack.c.i
+
+.PHONY : src/clapack.i
+
+# target to preprocess a source file
+src/clapack.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/clapack.c.i
+.PHONY : src/clapack.c.i
+
+src/clapack.s: src/clapack.c.s
+
+.PHONY : src/clapack.s
+
+# target to generate assembly for a file
+src/clapack.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/clapack.c.s
+.PHONY : src/clapack.c.s
+
+src/disp.o: src/disp.c.o
+
+.PHONY : src/disp.o
+
+# target to build an object file
+src/disp.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/disp.c.o
+.PHONY : src/disp.c.o
+
+src/disp.i: src/disp.c.i
+
+.PHONY : src/disp.i
+
+# target to preprocess a source file
+src/disp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/disp.c.i
+.PHONY : src/disp.c.i
+
+src/disp.s: src/disp.c.s
+
+.PHONY : src/disp.s
+
+# target to generate assembly for a file
+src/disp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/disp.c.s
+.PHONY : src/disp.c.s
+
+src/efp.o: src/efp.c.o
+
+.PHONY : src/efp.o
+
+# target to build an object file
+src/efp.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/efp.c.o
+.PHONY : src/efp.c.o
+
+src/efp.i: src/efp.c.i
+
+.PHONY : src/efp.i
+
+# target to preprocess a source file
+src/efp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/efp.c.i
+.PHONY : src/efp.c.i
+
+src/efp.s: src/efp.c.s
+
+.PHONY : src/efp.s
+
+# target to generate assembly for a file
+src/efp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/efp.c.s
+.PHONY : src/efp.c.s
+
+src/elec.o: src/elec.c.o
+
+.PHONY : src/elec.o
+
+# target to build an object file
+src/elec.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/elec.c.o
+.PHONY : src/elec.c.o
+
+src/elec.i: src/elec.c.i
+
+.PHONY : src/elec.i
+
+# target to preprocess a source file
+src/elec.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/elec.c.i
+.PHONY : src/elec.c.i
+
+src/elec.s: src/elec.c.s
+
+.PHONY : src/elec.s
+
+# target to generate assembly for a file
+src/elec.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/elec.c.s
+.PHONY : src/elec.c.s
+
+src/electerms.o: src/electerms.c.o
+
+.PHONY : src/electerms.o
+
+# target to build an object file
+src/electerms.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/electerms.c.o
+.PHONY : src/electerms.c.o
+
+src/electerms.i: src/electerms.c.i
+
+.PHONY : src/electerms.i
+
+# target to preprocess a source file
+src/electerms.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/electerms.c.i
+.PHONY : src/electerms.c.i
+
+src/electerms.s: src/electerms.c.s
+
+.PHONY : src/electerms.s
+
+# target to generate assembly for a file
+src/electerms.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/electerms.c.s
+.PHONY : src/electerms.c.s
+
+src/int.o: src/int.c.o
+
+.PHONY : src/int.o
+
+# target to build an object file
+src/int.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/int.c.o
+.PHONY : src/int.c.o
+
+src/int.i: src/int.c.i
+
+.PHONY : src/int.i
+
+# target to preprocess a source file
+src/int.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/int.c.i
+.PHONY : src/int.c.i
+
+src/int.s: src/int.c.s
+
+.PHONY : src/int.s
+
+# target to generate assembly for a file
+src/int.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/int.c.s
+.PHONY : src/int.c.s
+
+src/log.o: src/log.c.o
+
+.PHONY : src/log.o
+
+# target to build an object file
+src/log.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/log.c.o
+.PHONY : src/log.c.o
+
+src/log.i: src/log.c.i
+
+.PHONY : src/log.i
+
+# target to preprocess a source file
+src/log.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/log.c.i
+.PHONY : src/log.c.i
+
+src/log.s: src/log.c.s
+
+.PHONY : src/log.s
+
+# target to generate assembly for a file
+src/log.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/log.c.s
+.PHONY : src/log.c.s
+
+src/parse.o: src/parse.c.o
+
+.PHONY : src/parse.o
+
+# target to build an object file
+src/parse.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/parse.c.o
+.PHONY : src/parse.c.o
+
+src/parse.i: src/parse.c.i
+
+.PHONY : src/parse.i
+
+# target to preprocess a source file
+src/parse.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/parse.c.i
+.PHONY : src/parse.c.i
+
+src/parse.s: src/parse.c.s
+
+.PHONY : src/parse.s
+
+# target to generate assembly for a file
+src/parse.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/parse.c.s
+.PHONY : src/parse.c.s
+
+src/pol.o: src/pol.c.o
+
+.PHONY : src/pol.o
+
+# target to build an object file
+src/pol.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/pol.c.o
+.PHONY : src/pol.c.o
+
+src/pol.i: src/pol.c.i
+
+.PHONY : src/pol.i
+
+# target to preprocess a source file
+src/pol.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/pol.c.i
+.PHONY : src/pol.c.i
+
+src/pol.s: src/pol.c.s
+
+.PHONY : src/pol.s
+
+# target to generate assembly for a file
+src/pol.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/pol.c.s
+.PHONY : src/pol.c.s
+
+src/poldirect.o: src/poldirect.c.o
+
+.PHONY : src/poldirect.o
+
+# target to build an object file
+src/poldirect.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/poldirect.c.o
+.PHONY : src/poldirect.c.o
+
+src/poldirect.i: src/poldirect.c.i
+
+.PHONY : src/poldirect.i
+
+# target to preprocess a source file
+src/poldirect.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/poldirect.c.i
+.PHONY : src/poldirect.c.i
+
+src/poldirect.s: src/poldirect.c.s
+
+.PHONY : src/poldirect.s
+
+# target to generate assembly for a file
+src/poldirect.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/poldirect.c.s
+.PHONY : src/poldirect.c.s
+
+src/stream.o: src/stream.c.o
+
+.PHONY : src/stream.o
+
+# target to build an object file
+src/stream.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/stream.c.o
+.PHONY : src/stream.c.o
+
+src/stream.i: src/stream.c.i
+
+.PHONY : src/stream.i
+
+# target to preprocess a source file
+src/stream.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/stream.c.i
+.PHONY : src/stream.c.i
+
+src/stream.s: src/stream.c.s
+
+.PHONY : src/stream.s
+
+# target to generate assembly for a file
+src/stream.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/stream.c.s
+.PHONY : src/stream.c.s
+
+src/swf.o: src/swf.c.o
+
+.PHONY : src/swf.o
+
+# target to build an object file
+src/swf.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/swf.c.o
+.PHONY : src/swf.c.o
+
+src/swf.i: src/swf.c.i
+
+.PHONY : src/swf.i
+
+# target to preprocess a source file
+src/swf.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/swf.c.i
+.PHONY : src/swf.c.i
+
+src/swf.s: src/swf.c.s
+
+.PHONY : src/swf.s
+
+# target to generate assembly for a file
+src/swf.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/swf.c.s
+.PHONY : src/swf.c.s
+
+src/util.o: src/util.c.o
+
+.PHONY : src/util.o
+
+# target to build an object file
+src/util.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/util.c.o
+.PHONY : src/util.c.o
+
+src/util.i: src/util.c.i
+
+.PHONY : src/util.i
+
+# target to preprocess a source file
+src/util.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/util.c.i
+.PHONY : src/util.c.i
+
+src/util.s: src/util.c.s
+
+.PHONY : src/util.s
+
+# target to generate assembly for a file
+src/util.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/util.c.s
+.PHONY : src/util.c.s
+
+src/xr.o: src/xr.c.o
+
+.PHONY : src/xr.o
+
+# target to build an object file
+src/xr.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/xr.c.o
+.PHONY : src/xr.c.o
+
+src/xr.i: src/xr.c.i
+
+.PHONY : src/xr.i
+
+# target to preprocess a source file
+src/xr.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/xr.c.i
+.PHONY : src/xr.c.i
+
+src/xr.s: src/xr.c.s
+
+.PHONY : src/xr.s
+
+# target to generate assembly for a file
+src/xr.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/efp.dir/build.make CMakeFiles/efp.dir/src/xr.c.s
+.PHONY : src/xr.c.s
 
 # Help Target
 help:
@@ -239,10 +698,60 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... test"
+	@echo "... ctorch"
 	@echo "... efp"
 	@echo "... efpmd"
-	@echo "... ff"
-	@echo "... opt"
+	@echo "... libff"
+	@echo "... libopt"
+	@echo "... src/aidisp.o"
+	@echo "... src/aidisp.i"
+	@echo "... src/aidisp.s"
+	@echo "... src/balance.o"
+	@echo "... src/balance.i"
+	@echo "... src/balance.s"
+	@echo "... src/clapack.o"
+	@echo "... src/clapack.i"
+	@echo "... src/clapack.s"
+	@echo "... src/disp.o"
+	@echo "... src/disp.i"
+	@echo "... src/disp.s"
+	@echo "... src/efp.o"
+	@echo "... src/efp.i"
+	@echo "... src/efp.s"
+	@echo "... src/elec.o"
+	@echo "... src/elec.i"
+	@echo "... src/elec.s"
+	@echo "... src/electerms.o"
+	@echo "... src/electerms.i"
+	@echo "... src/electerms.s"
+	@echo "... src/int.o"
+	@echo "... src/int.i"
+	@echo "... src/int.s"
+	@echo "... src/log.o"
+	@echo "... src/log.i"
+	@echo "... src/log.s"
+	@echo "... src/parse.o"
+	@echo "... src/parse.i"
+	@echo "... src/parse.s"
+	@echo "... src/pol.o"
+	@echo "... src/pol.i"
+	@echo "... src/pol.s"
+	@echo "... src/poldirect.o"
+	@echo "... src/poldirect.i"
+	@echo "... src/poldirect.s"
+	@echo "... src/stream.o"
+	@echo "... src/stream.i"
+	@echo "... src/stream.s"
+	@echo "... src/swf.o"
+	@echo "... src/swf.i"
+	@echo "... src/swf.s"
+	@echo "... src/util.o"
+	@echo "... src/util.i"
+	@echo "... src/util.s"
+	@echo "... src/xr.o"
+	@echo "... src/xr.i"
+	@echo "... src/xr.s"
 .PHONY : help
 
 

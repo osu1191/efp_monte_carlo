@@ -226,8 +226,14 @@ struct efp {
 
     /* ligand index in fragment list */
     size_t ligand_index;
+    
+    /* callback which computes electric field from electrons */
+    efp_electron_density_field_fn get_electron_density_field;
 
-	/* user parameters for this EFP computation */
+    /* user data for get_electron_density_field */
+    void *get_electron_density_field_user_data;
+
+    /* user parameters for this EFP computation */
 	struct efp_opts opts;
 
 	/* gradient will also be computed if nonzero */
@@ -242,16 +248,16 @@ struct efp {
 	/* force and torque on fragments */
 	six_t *grad;
 
-	/* number of point charges */
+	/* number of point charges or QM atoms */
 	size_t n_ptc;
 
-	/* coordinates of point charges */
+	/* coordinates of point charges or QM atoms */
 	vec_t *ptc_xyz;
 
-	/* point charges */
+	/* point charges or QM atoms */
 	double *ptc;
 
-	/* gradient on point charges */
+	/* gradient on point charges or QM atoms */
 	vec_t *ptc_grad;
 
     /* total number of polarizable points */

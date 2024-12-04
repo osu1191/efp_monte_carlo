@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/depot/lslipche/data/skp/tstgit/efp_monte_carlo/efpmd/libff/ff.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+ff.h
+/depot/lslipche/data/skp/tstgit/efp_monte_carlo/efpmd/libff/ff.h
+
+/depot/lslipche/data/skp/tstgit/efp_monte_carlo/efpmd/libff/ff.h
+

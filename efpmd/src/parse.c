@@ -52,14 +52,12 @@ static void check_cfg(struct cfg *cfg)
 	check_double(cfg, "pressure");
 	check_double(cfg, "thermostat_tau");
 	check_double(cfg, "barostat_tau");
-	check_double(cfg, "max_move");
-	check_double(cfg, "max_rot");
 }
 
 static void parse_frag(struct stream *stream, enum efp_coord_type coord_type,
-    struct efpmd_frag *frag)
+    struct frag *frag)
 {
-	memset(frag, 0, sizeof(struct efpmd_frag));
+	memset(frag, 0, sizeof(struct frag));
 	efp_stream_skip_space(stream);
 	const char *ptr = efp_stream_get_ptr(stream);
 	efp_stream_skip_nonspace(stream);
@@ -88,7 +86,6 @@ static void parse_frag(struct stream *stream, enum efp_coord_type coord_type,
 		[EFP_COORD_TYPE_ATOMS] = 4 }[coord_type];
 
 	if (coord_type == EFP_COORD_TYPE_ATOMS) {
-	    int counter = 0;
 	    while (true) {
             struct efp_atom atom_i;
             memset(&atom_i, 0, sizeof(struct efp_atom));
@@ -111,19 +108,17 @@ static void parse_frag(struct stream *stream, enum efp_coord_type coord_type,
             efp_stream_skip_space(stream);
             if (!efp_stream_parse_double(stream, &atom_i.x) || !efp_stream_parse_double(stream, &atom_i.y)
                 || !efp_stream_parse_double(stream, &atom_i.z))
-                error("incorrect fragment coordinates format: reading efp atom coordinates");
-
-            // LVS: temporary fix not to break the code; probably need to be rewritten later on
-            if (counter < 3) {
-                frag->coord[counter*3] = atom_i.x;
-                frag->coord[counter*3+1] = atom_i.y;
-                frag->coord[counter*3+2] = atom_i.z;
-            }
+                error("incorrect fragment coordinates format: reading efp atom coordinates");	
 
             frag->n_atoms++;
             frag->atoms = xrealloc(frag->atoms, frag->n_atoms * sizeof(struct efp_atom));
             frag->atoms[frag->n_atoms - 1] = atom_i;
-            counter++;
+            
+			frag->coord = xrealloc(frag->coord, frag->n_atoms * 3* sizeof(double));
+            frag->coord[(frag->n_atoms-1)*3] = atom_i.x;
+            frag->coord[(frag->n_atoms-1)*3+1] = atom_i.y;
+            frag->coord[(frag->n_atoms-1)*3+2] = atom_i.z;
+
             //printf("n_atoms = %d",frag->n_atoms);
 
             efp_stream_next_line(stream);
@@ -132,9 +127,11 @@ static void parse_frag(struct stream *stream, enum efp_coord_type coord_type,
         }
     }
 	else {
+		frag->coord = (double*)malloc(n_rows * n_cols * sizeof(double));
         for (int i = 0, idx = 0; i < n_rows; i++) {
             for (int j = 0; j < n_cols; j++, idx++) {
                 if (!efp_stream_parse_double(stream, frag->coord + idx))
+//		    printf("We are at line 140\n");
                     error("incorrect fragment coordinates format");
             }
 
@@ -205,7 +202,7 @@ struct sys *parse_input(struct cfg *cfg, const char *path)
 			goto next;
 
 		if (is_keyword(efp_stream_get_ptr(stream), "fragment")) {
-			struct efpmd_frag frag;
+			struct frag frag;
 			enum efp_coord_type coord_type;
 
 			efp_stream_advance(stream, strlen("fragment"));
@@ -214,7 +211,7 @@ struct sys *parse_input(struct cfg *cfg, const char *path)
 
 			sys->n_frags++;
 			sys->frags = xrealloc(sys->frags,
-			    sys->n_frags * sizeof(struct efpmd_frag));
+			    sys->n_frags * sizeof(struct frag));
 			sys->frags[sys->n_frags - 1] = frag;
 			continue;
 		}
@@ -248,6 +245,8 @@ next:
 
 	if (sys->n_charges > 0 && cfg_get_enum(cfg, "run_type") == RUN_TYPE_MD)
 		error("point charges are not supported in molecular dynamics");
+	if (sys->n_charges > 0 && cfg_get_enum(cfg, "run_type") == RUN_TYPE_MC)
+                error("point charges are not supported in monte carlo");
 
 	if (cfg_get_enum(cfg, "ensemble") == ENSEMBLE_TYPE_NPT)
 		cfg_set_bool(cfg, "enable_pbc", true);

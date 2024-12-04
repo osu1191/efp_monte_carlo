@@ -28,7 +28,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <stdio.h>
 #include "opt.h"
 
 struct opt_state {
@@ -147,6 +147,7 @@ enum opt_result opt_init(struct opt_state *state, size_t n, const double *x)
 
 void opt_set_func(struct opt_state *state, opt_func_t func)
 {
+	// printf("Inside opt_set_func\n");
 	assert(state);
 	state->func = func;
 }
@@ -170,12 +171,25 @@ void opt_set_bound(struct opt_state *state, size_t n, const int *nbd,
 
 enum opt_result opt_step(struct opt_state *state)
 {
+	// this is where the compute_efp gets evoked again and again
+	// printf("marker for calling opt_step\n");
 	assert(state);
 
 next:
 	call_routine(state);
 
+	// printf("state->task: %s\n", state->task);
+    // printf("strlen(\"FG\"): %lu\n", strlen("FG"));
+	// func = compute_efp(...)
+	// state->f = state->func copies the function compute_efp
+	// and send it to setulb_ function via the call_routine funtion 
+	// the result is a string variable FG or NEW_X based on 
+	// which we go out of this function
+	// print statements have been added to check the strings
+	
 	if (strncmp(state->task, "FG", strlen("FG")) == 0) {
+        // when this if block is traversed compute_efp is evoked
+        printf("\n FG step \n");
 		state->f = state->func(state->n, state->x, state->g, state->data);
 
 		if (isnan(state->f))
@@ -184,20 +198,31 @@ next:
 		goto next;
 	}
 
-	if (strncmp(state->task, "NEW_X", strlen("NEW_X")) == 0)
+	// printf("state->task: %s\n", state->task);
+    // printf("strlen(\"NEW_X\"): %lu\n", strlen("NEW_X"));
+ 
+	if (strncmp(state->task, "NEW_X", strlen("NEW_X")) == 0){
+		// when this if-block is satisfied compute_efp is not evoked anymore
+		// src/opt-routine goes to next step
+		// For normal optimization, this block is satisfied every time previous
+		// if-block is satified, for opt_spec_frag_only this do not satisfy
+		// in every step... WHY???
+        printf("\n NEW_X step\n");
 		return OPT_RESULT_SUCCESS;
-
+	}
 	return OPT_RESULT_ERROR;
 }
 
 double opt_get_fx(struct opt_state *state)
 {
+	// printf("marker for calling in opt_get_fx\n");
 	assert(state);
 	return state->f;
 }
 
 void opt_get_x(struct opt_state *state, size_t size, double *out)
 {
+	// printf("marker for calling in opt_get_x\n");
 	assert(state);
 	assert(size >= state->n);
 	assert(out);
@@ -207,6 +232,7 @@ void opt_get_x(struct opt_state *state, size_t size, double *out)
 
 void opt_get_gx(struct opt_state *state, size_t size, double *out)
 {
+	// printf("marker for calling in opt_get_gx\n");
 	assert(state);
 	assert(size >= state->n);
 	assert(out);

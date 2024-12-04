@@ -40,9 +40,10 @@
 #ifdef _OPENMP
 #include <omp.h>
 #endif
- 
+
 #include <efp.h>
 #include <ff.h>
+//#include "../torch/c_libtorch.h"
 #include <mathutil.h>
 
 #include "cfg.h"
@@ -50,7 +51,7 @@
 #include "phys.h"
 
 #define NORETURN __attribute__((noreturn))
-#define efpmd_ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
 enum run_type {
 	RUN_TYPE_SP,
@@ -58,11 +59,10 @@ enum run_type {
 	RUN_TYPE_HESS,
 	RUN_TYPE_OPT,
 	RUN_TYPE_MD,
-	RUN_TYPE_MC, // SKP
+	RUN_TYPE_MC,
 	RUN_TYPE_EFIELD,
 	RUN_TYPE_ELPOT,
-	RUN_TYPE_FRAG_ELPOT,
-	RUN_TYPE_CLIB_TEST, // SKP 7th June
+    RUN_TYPE_FRAG_ELPOT,
 	RUN_TYPE_GTEST,
 	RUN_TYPE_ETEST
 };
@@ -72,8 +72,6 @@ enum ensemble_type {
 	ENSEMBLE_TYPE_NVT,
 	ENSEMBLE_TYPE_NPT
 };
-
-// Added by SKP
 
 typedef struct {
     int type;       // Particle type
@@ -85,13 +83,15 @@ double calculatePairwiseEnergy(Particle particle1, Particle particle2);
 void monteCarloMove(Particle* particles, int num_particles, double temperature);
 void monteCarloSimulation(Particle* particles, int num_particles, double temperature);
 
-// =============//
+enum atom_gradient{ 
+	ATOM_GRAD_MM,
+	ATOM_GRAD_FRAG 
+};
 
-struct efpmd_frag {
+struct frag {
 	char *name;
-	double coord[12];
+	double *coord;
 	size_t n_atoms;
-//	size_t chosen_frag;  // SKP for frag_elpot
 	struct efp_atom *atoms;
 	double vel[6];
 	bool constraint_enable;
@@ -99,42 +99,6 @@ struct efpmd_frag {
 	double constraint_k;
 };
 
-// SKP 6th June
-/*
-struct Tensor{
-    void* data;
-    int64_t* sizes;
-    int ndim;
-    int type_id;
-    int is_variable;
-};
-
-
-struct TenGrad {
-    float *data;
-    int64_t *sizes;
-    int num_dims;
-};
-
-
-//struct Net Net;
-struct Net *createNet();
-void destroyNet(struct Net *model);
-void forward(struct Net* model, const float *inputs, float *output, int input_size, int output_size);
-void trainModelWrapper(struct Net *model, const float **input_data, const float *target_data, int num_samples, int num_epochs, float learning_rate);
-void generateEnergyWrapper(struct Net *model, const float **input_data, int batch_size, int input_size);
-
-*/
-
-// SKP
-/*
-struct efpmd_frag_nn {
-	char *nn_name;	
-        int chosen_frag;
-        double nn_coord[12];
-        size_t nn_natoms;
-};
-*/
 struct charge {
 	double q;
 	vec_t pos;
@@ -142,7 +106,7 @@ struct charge {
 
 struct sys {
 	size_t n_frags;
-	struct efpmd_frag *frags;
+	struct frag *frags;
 	size_t n_charges;
 	struct charge *charges;
 };
@@ -150,11 +114,17 @@ struct sys {
 struct state {
 	struct efp *efp;
 	struct ff *ff;
+    struct torch *torch;
 	struct cfg *cfg;
 	struct sys *sys;
 	double energy;
+	// double *spec_elpot;
+    double torch_energy;
 	double *grad;
+    double *torch_grad;
+	// int init;
 };
+
 
 void NORETURN die(const char *, ...);
 void NORETURN error(const char *, ...);

@@ -1,8 +1,8 @@
-# Install script for directory: /depot/lslipche/data/skp/efp_monte_carlo
+# Install script for directory: /depot/lslipche/data/skp/tstgit/efp_monte_carlo
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/depot/lslipche/data/skp/efp_monte_carlo")
+  set(CMAKE_INSTALL_PREFIX "/depot/lslipche/data/skp/torch_skp_branch/libefp")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -42,19 +42,57 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/libefp" TYPE FILE FILES "/depot/lslipche/data/skp/efp_monte_carlo/fraglib/makefp.inp")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/libefp" TYPE DIRECTORY FILES "/depot/lslipche/data/skp/efp_monte_carlo/build5/fraglib")
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/efpmd/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
-  include("/depot/lslipche/data/skp/efp_monte_carlo/build5/src/cmake_install.cmake")
-  include("/depot/lslipche/data/skp/efp_monte_carlo/build5/efpmd/cmake_install.cmake")
+  # Include the install script for the subdirectory.
+  include("/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/tests/cmake_install.cmake")
+endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/libefp" TYPE FILE FILES "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/fraglib/makefp.inp")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/libefp" TYPE DIRECTORY FILES "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/fraglib")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/src//efp.h")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE STATIC_LIBRARY FILES "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/libefp.a")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/libefp" TYPE FILE FILES
+    "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/libefpConfig.cmake"
+    "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/libefpConfigVersion.cmake"
+    "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/cmake/FindTargetLAPACK.cmake"
+    )
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/libefp/libefpTargets-C.cmake")
+    file(DIFFERENT EXPORT_FILE_CHANGED FILES
+         "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/libefp/libefpTargets-C.cmake"
+         "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/CMakeFiles/Export/share/cmake/libefp/libefpTargets-C.cmake")
+    if(EXPORT_FILE_CHANGED)
+      file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/libefp/libefpTargets-C-*.cmake")
+      if(OLD_CONFIG_FILES)
+        message(STATUS "Old export file \"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/cmake/libefp/libefpTargets-C.cmake\" will be replaced.  Removing files [${OLD_CONFIG_FILES}].")
+        file(REMOVE ${OLD_CONFIG_FILES})
+      endif()
+    endif()
+  endif()
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/libefp" TYPE FILE FILES "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/CMakeFiles/Export/share/cmake/libefp/libefpTargets-C.cmake")
+  if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/cmake/libefp" TYPE FILE FILES "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/CMakeFiles/Export/share/cmake/libefp/libefpTargets-C-release.cmake")
+  endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -65,5 +103,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/depot/lslipche/data/skp/efp_monte_carlo/build5/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/depot/lslipche/data/skp/tstgit/efp_monte_carlo/build5/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

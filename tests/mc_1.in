@@ -1,5 +1,6 @@
 run_type mc
 coord xyzabc
+opt_special_frag 0
 max_move 0.2
 max_steps 15
 fraglib_path ../fraglib

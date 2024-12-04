@@ -14,11 +14,12 @@ file(REMOVE_RECURSE
   "CMakeFiles/efpmd.dir/src/parse.c.o"
   "CMakeFiles/efpmd.dir/src/rand.c.o"
   "CMakeFiles/efpmd.dir/src/sp.c.o"
+  "CMakeFiles/efpmd.dir/src/torch.c.o"
   "efpmd"
   "efpmd.pdb"
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang C)
+foreach(lang C CXX Fortran)
   include(CMakeFiles/efpmd.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libopt.a CMakeFiles/opt.dir/opt.c.o CMakeFiles/opt.dir/blas.f.o CMakeFiles/opt.dir/lbfgsb.f.o CMakeFiles/opt.dir/linpack.f.o CMakeFiles/opt.dir/timer.f.o
-/usr/bin/ranlib libopt.a

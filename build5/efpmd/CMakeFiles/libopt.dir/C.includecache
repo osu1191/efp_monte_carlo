@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/depot/lslipche/data/skp/tstgit/efp_monte_carlo/efpmd/libopt/opt.c
+assert.h
+-
+math.h
+-
+stdlib.h
+-
+string.h
+-
+stdio.h
+-
+opt.h
+/depot/lslipche/data/skp/tstgit/efp_monte_carlo/efpmd/libopt/opt.h
+
+/depot/lslipche/data/skp/tstgit/efp_monte_carlo/efpmd/libopt/opt.h
+stddef.h
+-
+

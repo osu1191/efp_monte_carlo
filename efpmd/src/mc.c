@@ -209,7 +209,8 @@ static void rotate_body(struct body *body, double alpha, double beta, double gam
 static void update_step(struct mc *mc)
 {
 // Pick a fragment, make random translations and rotation
-	int frag_index = rand() % mc->n_bodies;
+	//int frag_index = rand() % mc->n_bodies;
+	int frag_index = cfg_get_int(mc->state->cfg, "opt_special_frag");
 	printf("Frag_index = %12.8f\n",frag_index);
 	double kB = BOLTZMANN;
 	struct body *body = mc->bodies + frag_index;
@@ -409,7 +410,7 @@ void monteCarloMove(Particle* particles, int num_particles, double temperature) 
     }
 }
 
-/*
+
 void monteCarloSimulation(Particle* particles, int num_particles, double temperature) {
     double kB = BOLTZMANN; // Assuming BOLTZMANN is defined elsewhere
     int num_steps = 50;
@@ -448,7 +449,7 @@ void monteCarloSimulation(Particle* particles, int num_particles, double tempera
     }
 }
 
-*/
+
 
 void simulate_monte_carlo() {
 

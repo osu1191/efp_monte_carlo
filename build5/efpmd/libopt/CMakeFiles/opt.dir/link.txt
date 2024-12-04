@@ -1,1 +1,0 @@
-/apps/spack/bell/apps/openmpi/3.1.6-gcc-10.2.0-kn4ct52/bin/mpif90 -fPIC -O3 -DNDEBUG -O3 -shared -Wl,-soname,libopt.so -o libopt.so CMakeFiles/opt.dir/opt.c.o CMakeFiles/opt.dir/blas.f.o CMakeFiles/opt.dir/lbfgsb.f.o CMakeFiles/opt.dir/linpack.f.o CMakeFiles/opt.dir/timer.f.o 
